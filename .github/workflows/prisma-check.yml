@@ -5,6 +5,8 @@ on:
     branches:
       - main
   workflow_dispatch:
+permissions:
+  contents: read  # ✅ Most workflows only need read access to the repo code
 
 jobs:
   checkov-scan:
