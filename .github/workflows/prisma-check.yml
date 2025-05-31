@@ -13,7 +13,6 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v2
-
       - name: Run Prisma Cloud 
         id: prisma-cloud
         uses: bridgecrewio/checkov-action@master
@@ -21,6 +20,7 @@ jobs:
           PRISMA_API_URL: https://api2.prismacloud.io
         with:
           api-key: ${{ secrets.BC_API_KEY }}
+
       - name: Upload SARIF file
         if: ${{ always() }} # necessary if using failure thresholds in the image scan
         uses: github/codeql-action/upload-sarif@v2
