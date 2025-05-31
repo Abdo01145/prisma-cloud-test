@@ -1,0 +1,24 @@
+name: Prisma Cloud Checkov Scan
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  checkov-scan:
+    name: Run Checkov with Prisma Cloud
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+
+      - name: Run Checkov scan
+        uses: bridgecrewio/checkov-action@master
+        env:
+          PRISMA_API_URL: https://api2.eu.prismacloud.io  # change if not EU region
+        with:
+          api-key: ${{ secrets.BC_API_KEY }}
+
