@@ -15,6 +15,9 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v2
+      - name: Pull Docker image
+        run: docker pull abdo01145/shopping:latest
+
       - name: Prisma Cloud image scan
         id: scan
         uses: PaloAltoNetworks/prisma-cloud-scan@v1.5
