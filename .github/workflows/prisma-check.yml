@@ -20,7 +20,7 @@ jobs:
         id: scan
         uses: PaloAltoNetworks/prisma-cloud-scan@v1.5
         with:
-          pcc_console_url: "https://65.108.208.146:32234"
+          pcc_console_url: "https://65.108.208.146:32159"
           pcc_user: "admin"
           pcc_pass: "AdminP@$$w0rd"
           image_name: abdo01145/shopping:latest
