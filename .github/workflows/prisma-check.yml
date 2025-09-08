@@ -17,6 +17,8 @@ jobs:
         run: docker pull abdo01145/shopping:latest
 
       - name: Prisma Cloud image scan
+        env:
+          NODE_TLS_REJECT_UNAUTHORIZED: "0"
         id: scan
         uses: PaloAltoNetworks/prisma-cloud-scan@v1.5
         with:
