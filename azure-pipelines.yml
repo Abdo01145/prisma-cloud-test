@@ -70,7 +70,3 @@ stages:
               fi
             displayName: "Run TwistCLI Scan"
 
-          # Step 4: Publish scan results
-          - publish: "$(Build.ArtifactStagingDirectory)"
-            artifact: "twistcli-scan-results"
-            displayName: "Publish Scan Results"
