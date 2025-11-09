@@ -18,7 +18,7 @@ stages:
       - job: RunScan
         displayName: "Generate Token & Scan Image"
         pool:
-          vmImage: 'ubuntu-latest'
+          vmImage: 'Default'
         steps:
           - checkout: self
 
