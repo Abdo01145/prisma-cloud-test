@@ -55,7 +55,7 @@ stages:
           - script: |
               echo "Running Prisma Cloud scan for image: ${{ parameters.imageName }}"
 
-              ./twistcli images scan \
+              /root/twistcli images scan \
                 --address "${CONSOLE_URL}" \
                 --token "${API_TOKEN}" \
                 --details docker.io/library/nginx:latest \
