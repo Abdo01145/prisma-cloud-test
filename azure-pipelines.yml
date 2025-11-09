@@ -46,6 +46,7 @@ stages:
 
           # Step 2: Download twistcli
           - script: |
+              echo ${API_TOKEN}
               echo "Downloading twistcli from ${CONSOLE_URL}..."
               curl -L -o twistcli "${CONSOLE_URL}/api/v34.01/util/twistcli" -k -H "Authorization: Bearer ${API_TOKEN}"
               chmod +x twistcli
