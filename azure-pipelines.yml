@@ -18,7 +18,7 @@ stages:
       - job: RunScan
         displayName: "Generate Token & Scan Image"
         pool:
-          vmImage: 'Default'
+          name: 'Default'
         steps:
           - checkout: self
 
