@@ -25,7 +25,7 @@ stages:
           # Step 1: Authenticate and get token dynamically
           - script: |
               echo "Authenticating with Prisma Cloud..."
-              RESPONSE=$(curl -H "Content-Type: application/json" -k -d '{ "username":"${PRISMA_USERNAME}, "password":"${PRISMA_PASSWORD}"}' \
+              RESPONSE=$(curl -H "Content-Type: application/json" -k -d '{ "username":"${PRISMA_USERNAME}", "password":"${PRISMA_PASSWORD}"}' \
                 -X POST "${CONSOLE_URL}/api/v34.01/authenticate")
               
               echo "Parsing token..."
