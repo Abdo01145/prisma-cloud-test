@@ -38,7 +38,7 @@ stages:
               fi
 
               echo "✅ Token retrieved successfully"
-              echo "##vso[task.setvariable variable=API_TOKEN;issecret=true]$API_TOKEN"
+              echo "##vso[task.setvariable variable=PRISMA_API_TOKEN;issecret=true]$API_TOKEN"
             env:
               PRISMA_USERNAME: $(PRISMA_USERNAME)
               PRISMA_PASSWORD: $(PRISMA_PASSWORD)
@@ -46,10 +46,13 @@ stages:
 
           # Step 2: Download twistcli
           - script: |
-              echo $API_TOKEN
+              echo ${PRISMA_API_TOKEN}
               echo "Downloading twistcli from ${CONSOLE_URL}..."
-              curl -L -o twistcli "${CONSOLE_URL}/api/v34.01/util/twistcli" -k -H "Authorization: Bearer $API_TOKEN"
+              curl -L -o twistcli "${CONSOLE_URL}/api/v34.01/util/twistcli" -k -H "Authorization: Bearer ${PRISMA_API_TOKEN}"
               chmod +x twistcli
+            env:
+              PRISMA_API_TOKEN: $(PRISMA_API_TOKEN)
+
             displayName: "Download twistcli"
 
           # Step 3: Run the scan
