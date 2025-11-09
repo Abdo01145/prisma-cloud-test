@@ -61,7 +61,7 @@ stages:
               ls -lah twistcli
               ./twistcli images scan \
                 --address "${CONSOLE_URL}" \
-                --token "${API_TOKEN}" \
+                --token "$(PRISMA_API_TOKEN)" \
                 --details docker.io/library/nginx:latest \
                # "${{ parameters.imageName }}"
 
@@ -72,5 +72,7 @@ stages:
                 echo "❌ TwistCLI scan failed"
                 exit $SCAN_EXIT_CODE
               fi
+            env:
+              PRISMA_API_TOKEN: $(PRISMA_API_TOKEN)
             displayName: "Run TwistCLI Scan"
 
