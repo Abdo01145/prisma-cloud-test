@@ -58,7 +58,7 @@ stages:
               ./twistcli images scan \
                 --address "${CONSOLE_URL}" \
                 --token "${API_TOKEN}" \
-                --details nginx:latest \
+                --details docker.io/library/nginx:latest \
                # "${{ parameters.imageName }}"
 
               SCAN_EXIT_CODE=$?
