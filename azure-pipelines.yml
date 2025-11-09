@@ -1,0 +1,77 @@
+trigger: none
+
+parameters:
+  - name: imageName
+    displayName: "Container Image Name"
+    type: string
+    default: "nginx:latest"
+
+variables:
+  CONSOLE_URL: "https://65.108.157.51:30106"  # replace with your Console URL
+  TWISTCLI_BIN: "twistcli"
+  SCAN_OUTPUT_JSON: "$(Build.ArtifactStagingDirectory)/twistcli-scan-result.json"
+
+stages:
+  - stage: PrismaScan
+    displayName: "Prisma Cloud Image Scan"
+    jobs:
+      - job: RunScan
+        displayName: "Generate Token & Scan Image"
+        pool:
+          vmImage: 'ubuntu-latest'
+        steps:
+          - checkout: self
+
+          # Step 1: Authenticate and get token dynamically
+          - script: |
+              echo "Authenticating with Prisma Cloud..."
+              RESPONSE=$(curl -s -k -u "${PRISMA_USERNAME}:${PRISMA_PASSWORD}" \
+                -X POST "${CONSOLE_URL}/api/v1/authenticate")
+              
+              echo "Parsing token..."
+              API_TOKEN=$(echo $RESPONSE | jq -r '.token')
+
+              if [ "$API_TOKEN" = "null" ] || [ -z "$API_TOKEN" ]; then
+                echo "❌ Failed to retrieve Prisma Cloud API token"
+                echo "Response: $RESPONSE"
+                exit 1
+              fi
+
+              echo "✅ Token retrieved successfully"
+              echo "##vso[task.setvariable variable=API_TOKEN;issecret=true]$API_TOKEN"
+            env:
+              PRISMA_USERNAME: $(PRISMA_USERNAME)
+              PRISMA_PASSWORD: $(PRISMA_PASSWORD)
+            displayName: "Generate Prisma Cloud API Token"
+
+          # Step 2: Download twistcli
+          - script: |
+              echo "Downloading twistcli from ${CONSOLE_URL}..."
+              curl -L -o twistcli "${CONSOLE_URL}/api/v1/util/twistcli" -k -H "Authorization: Bearer ${API_TOKEN}"
+              chmod +x twistcli
+            displayName: "Download twistcli"
+
+          # Step 3: Run the scan
+          - script: |
+              echo "Running Prisma Cloud scan for image: ${{ parameters.imageName }}"
+
+              ${TWISTCLI_BIN} images scan \
+                --address "${CONSOLE_URL}" \
+                --token "${API_TOKEN}" \
+                --output-file "${SCAN_OUTPUT_JSON}" \
+                --details \
+                "${{ parameters.imageName }}"
+
+              SCAN_EXIT_CODE=$?
+              echo "Scan exit code: ${SCAN_EXIT_CODE}"
+
+              if [ $SCAN_EXIT_CODE -ne 0 ]; then
+                echo "❌ TwistCLI scan failed"
+                exit $SCAN_EXIT_CODE
+              fi
+            displayName: "Run TwistCLI Scan"
+
+          # Step 4: Publish scan results
+          - publish: "$(Build.ArtifactStagingDirectory)"
+            artifact: "twistcli-scan-results"
+            displayName: "Publish Scan Results"
