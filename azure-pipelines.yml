@@ -55,7 +55,7 @@ stages:
           - script: |
               echo "Running Prisma Cloud scan for image: ${{ parameters.imageName }}"
 
-              ${TWISTCLI_BIN} images scan \
+              ./twistcli images scan \
                 --address "${CONSOLE_URL}" \
                 --token "${API_TOKEN}" \
                 --output-file "${SCAN_OUTPUT_JSON}" \
