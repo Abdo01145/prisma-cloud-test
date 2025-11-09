@@ -26,7 +26,7 @@ stages:
           - script: |
               echo "Authenticating with Prisma Cloud..."
               RESPONSE=$(curl -s -k -u "${PRISMA_USERNAME}:${PRISMA_PASSWORD}" \
-                -X POST "${CONSOLE_URL}/api/v1/authenticate")
+                -X POST "${CONSOLE_URL}/api/v34/authenticate")
               
               echo "Parsing token..."
               API_TOKEN=$(echo $RESPONSE | jq -r '.token')
@@ -47,7 +47,7 @@ stages:
           # Step 2: Download twistcli
           - script: |
               echo "Downloading twistcli from ${CONSOLE_URL}..."
-              curl -L -o twistcli "${CONSOLE_URL}/api/v1/util/twistcli" -k -H "Authorization: Bearer ${API_TOKEN}"
+              curl -L -o twistcli "${CONSOLE_URL}/api/v34/util/twistcli" -k -H "Authorization: Bearer ${API_TOKEN}"
               chmod +x twistcli
             displayName: "Download twistcli"
 
