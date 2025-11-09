@@ -58,7 +58,6 @@ stages:
               ./twistcli images scan \
                 --address "${CONSOLE_URL}" \
                 --token "${API_TOKEN}" \
-                --output-file "${SCAN_OUTPUT_JSON}" \
                 --details \
                 "${{ parameters.imageName }}"
 
