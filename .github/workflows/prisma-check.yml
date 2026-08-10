@@ -16,6 +16,8 @@ jobs:
       - name: Prisma Cloud image scan
         id: scan
         uses: PaloAltoNetworks/prisma-cloud-scan@v1.5
+        env:
+          NODE_TLS_REJECT_UNAUTHORIZED: "0"
         with:
           pcc_console_url: "https://135.181.150.101:31678"
           pcc_user: "admin"
