@@ -17,18 +17,7 @@ jobs:
         id: scan
         uses: PaloAltoNetworks/prisma-cloud-scan@v1.5
         with:
-          pcc_console_url: "https://twistlock.pcs.lab.twistlock.com:8083"
-          pcc_user: "abmahmoud_sb"
-          pcc_pass: "Admin12345678!@"
+          pcc_console_url: "https://135.181.150.101:31678"
+          pcc_user: "admin"
+          pcc_pass: "AdminP@$$w0rd"
           image_name: abdo01145/shopping:latest
-
-      - name: Deploy over SSH
-        uses: appleboy/ssh-action@v1
-        with:
-          host: 37.27.243.251
-          username: root
-          password: "AdminP@$$w0rd"
-          port: "22"
-          script: |
-            docker pull abdo01145/shopping:latest
-            echo "hello"
