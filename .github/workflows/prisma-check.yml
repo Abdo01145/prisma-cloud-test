@@ -23,3 +23,11 @@ jobs:
           pcc_user: "admin"
           pcc_pass: "AdminP@$$w0rd"
           image_name: abdo01145/shopping:latest
+      - name: Upload scan results
+        if: ${{ !cancelled() }}      # so results upload even when the scan fails the build
+        uses: actions/upload-artifact@v4
+        with:
+          name: prisma-scan-results
+          path: |
+            ${{ github.workspace }}/pcc_scan_results.json
+            ${{ github.workspace }}/pcc_scan_results.sarif.json
